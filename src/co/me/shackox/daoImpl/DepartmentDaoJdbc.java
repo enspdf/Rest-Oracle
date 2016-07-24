@@ -12,7 +12,7 @@ import co.me.shackox.model.Department;
 import co.me.shackox.model.Status;
 
 public class DepartmentDaoJdbc implements DepartmentDao {
-	
+
 	PreparedStatement statement;
 	ResultSet rs;
 
@@ -22,7 +22,7 @@ public class DepartmentDaoJdbc implements DepartmentDao {
 		statement = connection.prepareStatement("SELECT * FROM DEPARTMENTS");
 		rs = statement.executeQuery();
 		try {
-			while(rs.next()) {
+			while (rs.next()) {
 				Department department = new Department();
 				department.setDepartment_id(rs.getLong("DEPARTMENT_ID"));
 				department.setDepartment_name(rs.getString("DEPARTMENT_NAME"));
@@ -30,13 +30,13 @@ public class DepartmentDaoJdbc implements DepartmentDao {
 				department.setLocation_id(rs.getLong("LOCATION_ID"));
 				departments.add(department);
 			}
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		connection.close();
 		return departments;
 	}
-	
+
 	@Override
 	public Department getDepartmentById(Connection connection, Department department) throws SQLException {
 		Department departmentRes = new Department();
@@ -45,7 +45,7 @@ public class DepartmentDaoJdbc implements DepartmentDao {
 		statement.setLong(index++, department.getDepartment_id());
 		try {
 			rs = statement.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				departmentRes.setDepartment_id(rs.getLong("DEPARTMENT_ID"));
 				departmentRes.setDepartment_name(rs.getString("DEPARTMENT_NAME"));
 				departmentRes.setManager_id(rs.getLong("MANAGER_ID"));
@@ -57,20 +57,23 @@ public class DepartmentDaoJdbc implements DepartmentDao {
 		connection.close();
 		return departmentRes;
 	}
-	
+
 	@Override
 	public Status saveDepartment(Connection connection, Department department) throws SQLException {
 		Status statusRes = new Status();
 		int index = 1;
-		statement = connection.prepareStatement("INSERT INTO DEPARTMENTS (DEPARTMENT_NAME, MANAGER_ID, LOCATION_ID) VALUES (?, ?, ?)");
+		statement = connection.prepareStatement(
+				"INSERT INTO DEPARTMENTS (DEPARTMENT_ID, DEPARTMENT_NAME, MANAGER_ID, LOCATION_ID) VALUES (?, ?, ?, ?)");
+		statement.setLong(index++, department.getDepartment_id());
 		statement.setString(index++, department.getDepartment_name());
 		statement.setLong(index++, department.getManager_id());
 		statement.setLong(index++, department.getLocation_id());
 		try {
-			rs = statement.executeQuery();
-			statusRes.setStatus(201);
-			statusRes.setError(false);
-			statusRes.setMessage("Data saved!");
+			if (statement.executeUpdate() > 0) {
+				statusRes.setStatus(201);
+				statusRes.setError(false);
+				statusRes.setMessage("Data saved!");
+			}
 		} catch (SQLException e) {
 			statusRes.setStatus(500);
 			statusRes.setError(true);

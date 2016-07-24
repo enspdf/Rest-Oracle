@@ -63,12 +63,14 @@ public class ws {
 	@POST
 	@Path("departments")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String saveDepartments(@FormParam("department_name") String department_name,
-			@FormParam("manager_id") Long manager_id, @FormParam("location_id") Long location_id) {
+	public String saveDepartments(@FormParam("department_id") Long department_id,
+			@FormParam("department_name") String department_name, @FormParam("manager_id") Long manager_id,
+			@FormParam("location_id") Long location_id) {
 		Department department = new Department();
 		String status = null;
 		try {
-			if(department_name != null && manager_id != null && location_id != null ) {
+			if (department_id != null &&department_name != null && manager_id != null && location_id != null) {
+				department.setDepartment_id(department_id);
 				department.setDepartment_name(department_name);
 				department.setManager_id(manager_id);
 				department.setLocation_id(location_id);

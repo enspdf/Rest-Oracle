@@ -8,7 +8,7 @@ public class DatabaseConnection {
 	public Connection getConnection() throws Exception {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			String url = "jdbc:oracle:thin:@192.168.1.17:1521:XE";
+			String url = "jdbc:oracle:thin:@192.168.1.7:1521:XE";
 			Properties access = new Properties();
 			access.put("user", "HR");
 			access.put("password", "hr");
