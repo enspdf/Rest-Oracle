@@ -119,7 +119,11 @@ public class ws {
 		Department department = new Department();
 		String status = null;
 		try {
-			
+			if (department_id != null) {
+				department.setDepartment_id(department_id);
+				Status statusRes = new DepartmentManagerImpl().deleteDepartment(department);
+				status = new JSONObject(statusRes).toString();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

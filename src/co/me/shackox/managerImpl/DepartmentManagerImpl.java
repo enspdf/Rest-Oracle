@@ -38,5 +38,13 @@ public class DepartmentManagerImpl implements DepartmentManager {
 		statusRes = dao.saveDepartment(conn, department);
 		return statusRes;
 	}
+	
+	@Override
+	public Status deleteDepartment(Department department) throws Exception {
+		Status statusRes = new Status();
+		Connection conn = db.getConnection();
+		statusRes = dao.deleteDepartment(conn, department);
+		return statusRes;
+	}
 
 }
