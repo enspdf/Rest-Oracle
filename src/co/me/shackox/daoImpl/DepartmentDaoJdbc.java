@@ -83,5 +83,26 @@ public class DepartmentDaoJdbc implements DepartmentDao {
 		connection.close();
 		return statusRes;
 	}
+	
+	@Override
+	public Status deleteDepartment(Connection connection, Department department) throws SQLException{
+		Status statusRes = new Status();
+		int index = 1;
+		statement = connection.prepareStatement("DELETE FROM DEPARTMENTS WHERE DEPARTMENT_ID = ?");
+		statement.setLong(index++, department.getDepartment_id());
+		try {
+			if (statement.executeUpdate() > 0) {
+				statusRes.setStatus(204);
+				statusRes.setError(false);
+				statusRes.setMessage("Deleted successful!");
+			}
+		} catch (SQLException e) {
+			statusRes.setStatus(500);
+			statusRes.setError(true);
+			statusRes.setMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		return statusRes;
+	}
 
 }

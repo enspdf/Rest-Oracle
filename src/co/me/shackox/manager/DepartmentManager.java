@@ -15,6 +15,6 @@ public interface DepartmentManager {
 	
 	//Status updateDepartment(Department department) throws Exception;
 	
-	//Status deleteDepartment(Department department) throws Exception;
+	Status deleteDepartment(Department department) throws Exception;
 
 }

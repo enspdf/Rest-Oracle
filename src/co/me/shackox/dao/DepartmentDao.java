@@ -14,5 +14,7 @@ public interface DepartmentDao {
 	Department getDepartmentById(Connection connection, Department department) throws SQLException;
 	
 	Status saveDepartment(Connection connection, Department department) throws SQLException;
+	
+	Status deleteDepartment(Connection connection, Department department) throws SQLException;
 
 }
